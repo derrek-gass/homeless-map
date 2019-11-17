@@ -1,56 +1,56 @@
-year,state,count_type,count
-1/1/18,AK,Overall Homeless,2016
-1/1/18,AL,Overall Homeless,3434
-1/1/18,AR,Overall Homeless,2712
-1/1/18,AZ,Overall Homeless,9865
-1/1/18,CA,Overall Homeless,129972
-1/1/18,CO,Overall Homeless,10857
-1/1/18,CT,Overall Homeless,3976
-1/1/18,DC,Overall Homeless,6904
-1/1/18,DE,Overall Homeless,1082
-1/1/18,FL,Overall Homeless,31030
-1/1/18,GA,Overall Homeless,9499
-1/1/18,GU,Overall Homeless,854
-1/1/18,HI,Overall Homeless,6530
-1/1/18,IA,Overall Homeless,2749
-1/1/18,ID,Overall Homeless,2012
-1/1/18,IL,Overall Homeless,10643
-1/1/18,IN,Overall Homeless,5258
-1/1/18,KS,Overall Homeless,2216
-1/1/18,KY,Overall Homeless,3688
-1/1/18,LA,Overall Homeless,3059
-1/1/18,MA,Overall Homeless,20068
-1/1/18,MD,Overall Homeless,7144
-1/1/18,ME,Overall Homeless,2516
-1/1/18,MI,Overall Homeless,8351
-1/1/18,MN,Overall Homeless,7243
-1/1/18,MO,Overall Homeless,5883
-1/1/18,MP,Overall Homeless,1044
-1/1/18,MS,Overall Homeless,1352
-1/1/18,MT,Overall Homeless,1405
-1/1/18,NC,Overall Homeless,9268
-1/1/18,ND,Overall Homeless,542
-1/1/18,NE,Overall Homeless,2421
-1/1/18,NH,Overall Homeless,1450
-1/1/18,NJ,Overall Homeless,9398
-1/1/18,NM,Overall Homeless,2551
-1/1/18,NV,Overall Homeless,7544
-1/1/18,NY,Overall Homeless,91897
-1/1/18,OH,Overall Homeless,10249
-1/1/18,OK,Overall Homeless,3871
-1/1/18,OR,Overall Homeless,14476
-1/1/18,PA,Overall Homeless,13512
-1/1/18,PR,Overall Homeless,3182
-1/1/18,RI,Overall Homeless,1101
-1/1/18,SC,Overall Homeless,3933
-1/1/18,SD,Overall Homeless,1159
-1/1/18,TN,Overall Homeless,7883
-1/1/18,TX,Overall Homeless,25310
-1/1/18,UT,Overall Homeless,2876
-1/1/18,VA,Overall Homeless,5975
-1/1/18,VI,Overall Homeless,486
-1/1/18,VT,Overall Homeless,1291
-1/1/18,WA,Overall Homeless,22304
-1/1/18,WI,Overall Homeless,4907
-1/1/18,WV,Overall Homeless,1243
-1/1/18,WY,Overall Homeless,639
+year,state,count
+1/1/18,AK,2016
+1/1/18,AL,3434
+1/1/18,AR,2712
+1/1/18,AZ,9865
+1/1/18,CA,129972
+1/1/18,CO,10857
+1/1/18,CT,3976
+1/1/18,DC,6904
+1/1/18,DE,1082
+1/1/18,FL,31030
+1/1/18,GA,9499
+1/1/18,GU,854
+1/1/18,HI,6530
+1/1/18,IA,2749
+1/1/18,ID,2012
+1/1/18,IL,10643
+1/1/18,IN,5258
+1/1/18,KS,2216
+1/1/18,KY,3688
+1/1/18,LA,3059
+1/1/18,MA,20068
+1/1/18,MD,7144
+1/1/18,ME,2516
+1/1/18,MI,8351
+1/1/18,MN,7243
+1/1/18,MO,5883
+1/1/18,MP,1044
+1/1/18,MS,1352
+1/1/18,MT,1405
+1/1/18,NC,9268
+1/1/18,ND,542
+1/1/18,NE,2421
+1/1/18,NH,1450
+1/1/18,NJ,9398
+1/1/18,NM,2551
+1/1/18,NV,7544
+1/1/18,NY,91897
+1/1/18,OH,10249
+1/1/18,OK,3871
+1/1/18,OR,14476
+1/1/18,PA,13512
+1/1/18,PR,3182
+1/1/18,RI,1101
+1/1/18,SC,3933
+1/1/18,SD,1159
+1/1/18,TN,7883
+1/1/18,TX,25310
+1/1/18,UT,2876
+1/1/18,VA,5975
+1/1/18,VI,486
+1/1/18,VT,1291
+1/1/18,WA,22304
+1/1/18,WI,4907
+1/1/18,WV,1243
+1/1/18,WY,639
