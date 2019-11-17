@@ -6,7 +6,7 @@ year,state,count
 1/1/18,California,129972
 1/1/18,Colorado,10857
 1/1/18,Conneticut,3976
-1/1/18,DC,6904
+1/1/18,District of Columbia,6904
 1/1/18,Deleware,1082
 1/1/18,Florida,31030
 1/1/18,Georgia,9499
@@ -21,13 +21,13 @@ year,state,count
 1/1/18,Louisiana,3059
 1/1/18,Massechusetts,20068
 1/1/18,Maryland,7144
-1/1/18,ME,2516
-1/1/18,MI,8351
-1/1/18,MN,7243
-1/1/18,Montana,5883
+1/1/18,Maine,2516
+1/1/18,Michegan,8351
+1/1/18,Minnesota,7243
+1/1/18,Missouri,5883
 1/1/18,MP,1044
-1/1/18,MS,1352
-1/1/18,MT,1405
+1/1/18,Mississippi,1352
+1/1/18,Montana,1405
 1/1/18,North Carolina,9268
 1/1/18,North Dakota,542
 1/1/18,New England,2421
@@ -47,8 +47,8 @@ year,state,count
 1/1/18,Tennessee,7883
 1/1/18,Texas,25310
 1/1/18,Utah,2876
-1/1/18,VA,5975
-1/1/18,Virginia,486
+1/1/18,Virginia,5975
+1/1/18,Virgin Islands,486
 1/1/18,Vermont,1291
 1/1/18,Washington,22304
 1/1/18,Wisconsin,4907
