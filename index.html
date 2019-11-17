@@ -41,9 +41,10 @@ body {
 
 </style>
 
-<div id="tooltip-container"></div>
-
-<div id="canvas-svg"></div>
+<div className="mainContainer">
+  <div id="tooltip-container"></div>
+  <div id="canvas-svg"></div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
@@ -53,12 +54,13 @@ body {
 
 d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
 
-  var config = {"color1":"#d3e5ff","color2":"#08306B","stateDataColumn":"state","valueDataColumn":"count"}
-  
+  var config = {
+    "color1":"#d3e5ff",
+    "color2":"#3333FF",
+    "stateDataColumn":"state",
+    "valueDataColumn":"count"}
   var WIDTH = 800, HEIGHT = 500;
-  
-  var COLOR_COUNTS = 9;
-  
+  var COLOR_COUNTS = 50;
   var SCALE = 0.7;
   
   function Interpolate(start, end, steps, count) {
@@ -109,14 +111,12 @@ d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
   }
   
   var COLOR_FIRST = config.color1, COLOR_LAST = config.color2;
-  
   var rgb = hexToRgb(COLOR_FIRST);
-  
   var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
-  
   rgb = hexToRgb(COLOR_LAST);
   var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
-  
+
+
   var MAP_STATE = config.stateDataColumn;
   var MAP_VALUE = config.valueDataColumn;
   
