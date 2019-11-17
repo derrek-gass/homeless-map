@@ -56,18 +56,32 @@ An overview of your development process. Describe how the work was split among t
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 <script>
-
-d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
+//  d3.csv("PIT_homelessness_by_state.csv", function (err, data) {
+d3.csv("Point_in_Time_Master.csv", function(err, data) {
 
   var config = {
     "color1":"#d3e5ff",
     "color2":"#132141",
     "stateDataColumn":"state",
-    "valueDataColumn":"count"}
+    "countColumn":"count",
+    "count_type":"count_type",
+    "year":"year"}
   var WIDTH = 800, HEIGHT = 500;
   var COLOR_COUNTS = 50;
   var SCALE = 0.7;
+
+
+  var this_is_the_data = data.map(function (d) {
+    return {
+      year: d.year,
+      state: d.state,
+      count_type: d.count_type,
+      count: d.count
+    }
+  });
   
+  console.log(this_is_the_data);
+
   function Interpolate(start, end, steps, count) {
       var s = start,
           e = end,
@@ -123,7 +137,7 @@ d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
 
 
   var MAP_STATE = config.stateDataColumn;
-  var MAP_VALUE = config.valueDataColumn;
+  var MAP_VALUE = config.countColumn;
   
   var width = WIDTH,
       height = HEIGHT;
