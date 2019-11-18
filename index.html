@@ -166,6 +166,12 @@
 
 
 
+
+
+
+
+
+
       var COLOR_FIRST = config.color1, COLOR_LAST = config.color2;
       var rgb = hexToRgb(COLOR_FIRST);
       var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
@@ -191,7 +197,9 @@
         colors.push(new Color(r, g, b));
       }
       
+      console.log(colors);
 
+      
       var quantize = d3.scale.quantize()
           .domain([0, 10])
           .range(d3.range(12).map(function(i) { return i }));
