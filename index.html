@@ -14,8 +14,8 @@
 <style>
         body {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          width: 800px;
-          height: 500px;
+          width: 1000px;
+          height: 800px;
           position: relative;
           margin: auto;
           text-align: center;
@@ -23,6 +23,19 @@
 
         svg{
             display: inline-block;
+        }
+
+        h5{
+          margin: 2px;
+        }
+
+        .mainTitle{
+          position: relative;
+          margin: auto;
+          padding-top: 25px;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size:50px;
+          color:#0F3F8F;
         }
         /* stylesheet for your custom graph */
         .states {
@@ -58,6 +71,7 @@
 
         .x.axis path {
           display: none;
+        
         }
 
         .line {
@@ -79,7 +93,7 @@
 
 
 <body>
-<h1>Homeless Population</h1>
+<div class="mainTitle"></div>
 <h5>January Point-In-Time Headcount</h5>
   <div id="tooltip-container"></div>
   <div id="canvas-svg"></div>
@@ -170,10 +184,6 @@
       
       var colors = [];
       
-
-
-
-
       for (var i = 0; i < COLOR_COUNTS; i++) {
         var r = Interpolate(startColors.r, endColors.r, COLOR_COUNTS, i);
         var g = Interpolate(startColors.g, endColors.g, COLOR_COUNTS, i);
@@ -182,24 +192,27 @@
       }
       
 
-
-
       var quantize = d3.scale.quantize()
           .domain([0, 10])
-          .range(d3.range(COLOR_COUNTS).map(function(i) { return i }));
+          .range(d3.range(12).map(function(i) { return i }));
       
       var path = d3.geo.path();
       
       var svg = d3.select("#canvas-svg").append("svg")
           .attr("width", width)
           .attr("height", height)
-
           ;
 
+      // this adds the title, but it does it d3 style apparently
+      var thing = d3.select("div.mainTitle");
+      var title_temp_edit = thing.append("title_temp_edit");
+      title_temp_edit.text("Homeless Population");
 
       var colorLegend = d3.legend.color()
         .labelFormat(d3.format(".0f"))
-        .scale(quantize)
+        .useClass(true)
+        .scale(quantize.domain([d3.min(data, function (d) { return +d[MAP_VALUE] }),
+          d3.max(data, function (d) { return +d[MAP_VALUE] })]))
         .shapePadding(5)
         .shapeWidth(50)
         .shapeHeight(20)
@@ -291,6 +304,7 @@
 
         svg.append("g")
           .attr("transform", "translate(750,50)")
+          
           .call(colorLegend);
     
       });
