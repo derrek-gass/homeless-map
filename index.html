@@ -195,8 +195,7 @@
       var quantize = d3.scale.quantize()
           .domain([0, 10])
           .range(d3.range(12).map(function(i) { return i }));
-      
-
+   
             
       var path = d3.geo.path();
       
@@ -210,11 +209,12 @@
       var title_temp_edit = thing.append("title_temp_edit");
       title_temp_edit.text("Homeless Population");
 
+
+      // when the later append gets called, it's to this
       var colorLegend = d3.legend.color()
         .labelFormat(d3.format(".0f"))
         .useClass(true)
-        .scale(quantize.domain([d3.min(data, function (d) { return +d[MAP_VALUE] }),
-          d3.max(data, function (d) { return +d[MAP_VALUE] })]))
+        .scale(quantize)
         .shapePadding(5)
         .shapeWidth(50)
         .shapeHeight(20)
