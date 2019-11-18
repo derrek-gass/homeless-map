@@ -196,6 +196,8 @@
           .domain([0, 10])
           .range(d3.range(12).map(function(i) { return i }));
       
+
+            
       var path = d3.geo.path();
       
       var svg = d3.select("#canvas-svg").append("svg")
@@ -216,7 +218,11 @@
         .shapePadding(5)
         .shapeWidth(50)
         .shapeHeight(20)
-        .labelOffset(12)
+        .labelOffset(12);
+
+
+
+     
         
       
       d3.tsv("https://s3-us-west-2.amazonaws.com/vida-public/geo/us-state-names.tsv", function(error, names) {
@@ -300,12 +306,15 @@
             .attr("transform", "scale(" + SCALE + ")")
             .attr("d", path);
         
+        
     
 
         svg.append("g")
           .attr("transform", "translate(750,50)")
-          
-          .call(colorLegend);
+          .call(colorLegend)
+        ;
+
+
     
       });
     });
