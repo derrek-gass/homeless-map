@@ -15,7 +15,7 @@
 <style>
         body {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          width: 800px;
+          width: 750px;
           height: 800px;
           position: relative;
           margin: auto;
@@ -26,12 +26,19 @@
             display: inline-block;
         }
 
+        .story{
+          display: block;
+          width: 800px;
 
+        }
+
+        p{
+          display: block;
+          padding: 15px;
+        }
 
         h5{
-
           margin: 2px;
-
         }
 
 
@@ -45,47 +52,30 @@
         }
 
         /* stylesheet for your custom graph */
-
         .states {
-
           fill: none;
-
           stroke: #fff;
-
           stroke-linejoin: round;
-
         }
 
         .states-choropleth {
-
           fill: #ccc;
-
         }
 
         #tooltip-container {
-
           position: absolute;
-
           background-color: #fff;
-
           color: #000;
-
           padding: 10px;
-
           border: 1px solid;
-
           display: none;
-
         }
 
         .tooltip_key {
-
           font-weight: bold;
-z
         }
 
         .tooltip_value {
-
           margin-left: 20px;
           float: right;
         }
@@ -96,7 +86,6 @@ z
         .axis line {
           fill: none;
           stroke: #000;
-
           shape-rendering: crispEdges;
         }
 
@@ -131,19 +120,23 @@ z
   <div id="canvas-svg"></div>
   <div id="story">
 
-<br/>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
-<br/>Rather than using a bar chart for each state, or a list of places, we chose a visual that we were familiar with: the map of the United States. 
-<br/>Our rationale for our visual encodings had to do with the type of data we were dealing with and the message that we wanted to relay given the background of our dataset. 
-<br/>
+<p>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
+Rather than using a bar chart for each state, or a list of places, we chose a visual that we were familiar with: the map of the United States. 
+Our rationale for our visual encodings had to do with the type of data we were dealing with and the message that we wanted to relay given the background of our dataset. 
+</p>
+
+<p>
 <br/>State: Nominal → Dimension for each state in the U.S.
 <br/>Homelessness Count: Quantitative → Color scale depending on quantity
 <br/>
+</p>
 
-<br/>We decided to create a map to visualize the amount of homeless people across the U.S. The darkest shade of red represents the state with the highest amount homelessness and the lightest shade of red represents the state with the lowest. The color choice was deliberate, and was meant to relay how urgent the crisis is in some states. In addition to that, while hovering over any state on the map, more information will display, showing the actual number of homeless people in the state. Some alternative colors that we thought of were blue (for sadness), or grey, but since red pops out, and depicts urgency, we decided to use it in our visual. We thought that to visualize each state, we could use a line graph with the x-axis being the amount of homeless people, and each line being the state, but realized that would be too cluttered in one visualization, so we picked the intuitive map of the U.S.
-<br/>We used Github as a way to collaborate, and ensure that our code functioned well with one another’s. 
-<br/>Github made it easier for us to work on the project individually and share our progress without the need to physically sync up. 
-<br/>Most of the time spent on this project was figuring out how to import information from the csv file and use it for the visualization. Another factor we stressed was the process of making the visualization both interactive and easy to read. In addition to the actual programming, even more time was spent on getting our environment set up, and the planning of the visualization. Overall, as a group, the total amount of hours spent into developing this visualization was approximately 25 hours. For the next modification, we want to add a slider to manipulate the view to be a different year, and we also hope to add more information on mouseover. We expect to maintain our group for Project 4, and since we have a shared repository for our code, and are familiar with each other’s coding style, we expect our final project to become much smoother.  
-
+<p>
+We decided to create a map to visualize the amount of homeless people across the U.S. The darkest shade of red represents the state with the highest amount homelessness and the lightest shade of red represents the state with the lowest. The color choice was deliberate, and was meant to relay how urgent the crisis is in some states. In addition to that, while hovering over any state on the map, more information will display, showing the actual number of homeless people in the state. Some alternative colors that we thought of were blue (for sadness), or grey, but since red pops out, and depicts urgency, we decided to use it in our visual. We thought that to visualize each state, we could use a line graph with the x-axis being the amount of homeless people, and each line being the state, but realized that would be too cluttered in one visualization, so we picked the intuitive map of the U.S.
+We used Github as a way to collaborate, and ensure that our code functioned well with one another’s. 
+Github made it easier for us to work on the project individually and share our progress without the need to physically sync up. 
+Most of the time spent on this project was figuring out how to import information from the csv file and use it for the visualization. Another factor we stressed was the process of making the visualization both interactive and easy to read. In addition to the actual programming, even more time was spent on getting our environment set up, and the planning of the visualization. Overall, as a group, the total amount of hours spent into developing this visualization was approximately 25 hours. For the next modification, we want to add a slider to manipulate the view to be a different year, and we also hope to add more information on mouseover. We expect to maintain our group for Project 4, and since we have a shared repository for our code, and are familiar with each other’s coding style, we expect our final project to become much smoother.  
+</p>
 
 
 
@@ -160,312 +153,164 @@ z
         "stateDataColumn":"state",
         "valueDataColumn":"count"}
 
-      var WIDTH = 800, HEIGHT = 500;
+      var WIDTH = 750, HEIGHT = 500;
       var COLOR_COUNTS = 12;
       var SCALE = 0.8;
 
       
 
       function Interpolate(start, end, steps, count) {
-
           var s = start,
-
               e = end,
-
               final = s + (((e - s) / steps) * count);
-
           return Math.floor(final);
-
       }
 
       
 
       function Color(_r, _g, _b) {
-
           var r, g, b;
-
           var setColors = function(_r, _g, _b) {
-
               r = _r;
-
               g = _g;
-
-              b = _b;
-
+              b = _b;          
           };
-
-      
 
           setColors(_r, _g, _b);
-
           this.getColors = function() {
-
               var colors = {
-
                   r: r,
-
                   g: g,
-
                   b: b
-
               };
-
               return colors;
-
           };
-
       }
-
-      
 
       function hexToRgb(hex) {
-
           var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
           return result ? {
-
               r: parseInt(result[1], 16),
-
               g: parseInt(result[2], 16),
-
               b: parseInt(result[3], 16)
-
           } : null;
-
       }
-
-      
 
       function valueFormat(d) {
-
         if (d > 1000000000) {
-
           return Math.round(d / 1000000000 * 10) / 10 + "B";
-
         } else if (d > 1000000) {
-
           return Math.round(d / 1000000 * 10) / 10 + "M";
-
         } else if (d > 1000) {
-
           return Math.round(d / 1000 * 10) / 10 + "K";
-
         } else {
-
           return d;
-
         }
-
       }
-
       
-
-
-
-
-
 
 
       var COLOR_FIRST = config.color1, COLOR_LAST = config.color2;
-
       var rgb = hexToRgb(COLOR_FIRST);
-
       var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
-
       rgb = hexToRgb(COLOR_LAST);
-
       var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
-
       var MAP_STATE = config.stateDataColumn;
-
       var MAP_VALUE = config.valueDataColumn;
-
       
-
       var width = WIDTH,
-
           height = HEIGHT;
-
       
-
       var valueById = d3.map();
-
       
-
       var startColors = COLOR_START.getColors(),
-
           endColors = COLOR_END.getColors();
 
       
-
       var colors = [];
-
       
-
       for (var i = 0; i < COLOR_COUNTS; i++) {
-
         var r = Interpolate(startColors.r, endColors.r, COLOR_COUNTS, i);
-
         var g = Interpolate(startColors.g, endColors.g, COLOR_COUNTS, i);
-
         var b = Interpolate(startColors.b, endColors.b, COLOR_COUNTS, i);
-
         colors.push(new Color(r, g, b));
-
       }
-
       
-
-
 
       var quantize = d3.scale.quantize()
-
           .domain([0, 10])
-
           .range(d3.range(12).map(function(i) { return i }));
-
    
-
             
-
       var path = d3.geo.path();
-
       
-
       var svg = d3.select("#canvas-svg").append("svg")
-
           .attr("width", width)
-
           .attr("height", height)
-
           ;
 
-
-
       // this adds the title, but it does it d3 style apparently
-
       var thing = d3.select("div.mainTitle");
-
       var title_temp_edit = thing.append("title_temp_edit");
-
       title_temp_edit.text("Homeless Population in the U.S.");
 
 
-
-
-
       // when the later append gets called, it's to this
-
       var colorLegend = d3.legend.color()
-
         .labelFormat(d3.format(".0f"))
-
         .useClass(true)
-
         .scale(quantize)
-
         .shapePadding(5)
-
         .shapeWidth(50)
-
         .shapeHeight(20)
-
         .labelOffset(12);
 
 
 
-
-
-
-
      
-
         
-
       
-
       d3.tsv("https://s3-us-west-2.amazonaws.com/vida-public/geo/us-state-names.tsv", function(error, names) {
-
       
-
       name_id_map = {};
-
       id_name_map = {};
-
       
-
       for (var i = 0; i < names.length; i++) {
-
         name_id_map[names[i].name] = names[i].id;
-
         id_name_map[names[i].id] = names[i].name;
-
       }
-
       
-
       data.forEach(function(d) {
-
         var id = name_id_map[d[MAP_STATE]];
-
         valueById.set(id, +d[MAP_VALUE]); 
-
       });
-
       
-
       quantize.domain([d3.min(data, function(d){ return +d[MAP_VALUE] }),
-
         d3.max(data, function(d){ return +d[MAP_VALUE] })]);
 
 
 
-
-
-
-
       d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function(error, us) {
-
         svg.append("g")
-
             .attr("class", "states-choropleth")
-
           .selectAll("path")
-
             .data(topojson.feature(us, us.objects.states).features)
-
           .enter().append("path")
-
             .attr("transform", "scale(" + SCALE + ")")
-
             .style("fill", function(d) {
-
               if (valueById.get(d.id)) {
-
                 var i = quantize(valueById.get(d.id));
-
                 var color = colors[i].getColors();
-
                 return "rgb(" + color.r + "," + color.g +
-
                     "," + color.b + ")";
-
               } else {
-
                 return "";
-
               }
-
             })
-
             .attr("d", path)
-
             .on("mousemove", function(d) {
-
                 var html = "";
-
       
-
                 html += "<div class=\"tooltip_kv\">";
                 html += "<span class=\"tooltip_key\">";
                 html += id_name_map[d.id];
@@ -474,16 +319,13 @@ z
                 html += (valueById.get(d.id) ? valueFormat(valueById.get(d.id)) : "");
                 html += "";
                 html += "</span>";
-                html += "</div>";
-                
+                html += "</div>";          
                 $("#tooltip-container").html(html);
                 $(this).attr("fill-opacity", "0.8");
                 $("#tooltip-container").show();
                 
                 var coordinates = d3.mouse(this);
-                
                 var map_width = $('.states-choropleth')[0].getBoundingClientRect().width;
-                
                 if (d3.event.layerX < map_width / 2) {
                   d3.select("#tooltip-container")
                     .style("top", (d3.event.layerY + 15) + "px")
