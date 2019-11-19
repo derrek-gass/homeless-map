@@ -37,19 +37,12 @@
 
 
         .mainTitle{
-
           position: relative;
-
           margin: auto;
-
           padding-top: 25px;
-
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
           font-size:50px;
-
           color:#0F3F8F;
-
         }
 
         /* stylesheet for your custom graph */
@@ -151,61 +144,26 @@
 </style>
 
 
-
-
-
-
-
-
-
-
-
-
-
 <body>
-
 <div class="mainTitle"></div>
-
 <h5>January Point-In-Time Headcount</h5>
-
   <div id="tooltip-container"></div>
-
   <div id="canvas-svg"></div>
-
   <div id="story">
-
       Perhaps some words maybe a description
-
   </div>
 
 
-
-
-
-
-
 <script>
-
     d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
-
       var config = {
-
         "color1":"#c7d5ef",
-
         "color2":"#0F3F8F",
-
         "stateDataColumn":"state",
-
         "valueDataColumn":"count"}
 
-
-
-
-
       var WIDTH = 1000, HEIGHT = 500;
-
       var COLOR_COUNTS = 12;
-
       var SCALE = 0.8;
 
       
@@ -542,7 +500,6 @@
             .on("mouseout", function() {
                     $(this).attr("fill-opacity", "1.0");
                     $("#tooltip-container").hide();
-
                 });
 
       
@@ -553,38 +510,15 @@
             .attr("transform", "scale(" + SCALE + ")")
             .attr("d", path);
 
-        
-
-        
-
-    
-
-
 /*
         svg.append("g")
           .attr("transform", "translate(750,50)")
           .call(colorLegend)
 */
         ;
-
-
-
-
-
-    
-
       });
-
     });
-
   });
-
   </script>
-
-
-
-
-
   </body>
-
 </html>
