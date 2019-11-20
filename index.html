@@ -167,13 +167,13 @@ For the next modification, we want to add a slider to manipulate the view to be 
 <script>
     d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
       var config = {
-        "color1":"#ffc2b3",
+        "color1":"#ffe6e6",
         "color2":"#4d0f00",
         "stateDataColumn":"state",
         "valueDataColumn":"count"}
 
       var WIDTH = 750, HEIGHT = 500;
-      var COLOR_COUNTS = 25;
+      var COLOR_COUNTS = 50;
       var SCALE = 0.8;
 
       
@@ -258,7 +258,7 @@ For the next modification, we want to add a slider to manipulate the view to be 
 
       var quantize = d3.scale.quantize()
           .domain([0, 10])
-          .range(d3.range(25).map(function(i) { return i }));
+          .range(d3.range(50).map(function(i) { return i }));
    
             
       var path = d3.geo.path();
