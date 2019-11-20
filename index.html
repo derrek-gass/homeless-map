@@ -173,7 +173,7 @@ For the next modification, we want to add a slider to manipulate the view to be 
         "valueDataColumn":"count"}
 
       var WIDTH = 750, HEIGHT = 500;
-      var COLOR_COUNTS = 12;
+      var COLOR_COUNTS = 25;
       var SCALE = 0.8;
 
       
@@ -258,7 +258,7 @@ For the next modification, we want to add a slider to manipulate the view to be 
 
       var quantize = d3.scale.quantize()
           .domain([0, 10])
-          .range(d3.range(12).map(function(i) { return i }));
+          .range(d3.range(25).map(function(i) { return i }));
    
             
       var path = d3.geo.path();
