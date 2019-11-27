@@ -111,6 +111,7 @@
           opacity:0.8;
         }
 
+
 </style>
 
 
@@ -119,6 +120,9 @@
 <h5>January Point-In-Time Headcount</h5>
   <div id="tooltip-container"></div>
   <div id="canvas-svg"></div>
+  <div id="pie-chart">
+
+  </div>
   <div id="story">
 
 <p>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
@@ -164,7 +168,7 @@ For the next modification, we want to add a slider to manipulate the view to be 
   </div>
 
 
-<script>
+  <script>
     d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
       var config = {
         "color1":"#e1bdbd",
@@ -379,5 +383,8 @@ For the next modification, we want to add a slider to manipulate the view to be 
     });
   });
   </script>
+
+
+  
   </body>
 </html>
