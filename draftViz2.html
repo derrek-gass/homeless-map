@@ -55,6 +55,15 @@ polyline{
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
+d3.csv("PIT_homelessness_by_state.csv", function(dataSaver){
+
+let colorList = '';
+
+dataSaver.forEach(function(d) {
+count = +d.count;
+state = +d.state;
+colorList += d.state.toString() + ', ';
+});
 
 
 var svg = d3.select("#pie")
@@ -92,11 +101,12 @@ svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 var key = function(d){ return d.data.label; };
 
+
 var color = d3.scale.category20()
 	.domain(["a","b","c","d","e","f","g","h"])
 
-var states = d3.scale.category20()
-    .domain(["1","2","3","4"]);
+
+
 
 //	.domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
 	//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
@@ -105,19 +115,6 @@ var states = d3.scale.category20()
 
     var valueById = d3.map();
 
-
-    const toArray = x => ({state: x.state, count: x.count});
-    var name_id_map= [];
-    var homelessObject = [];
-
-d3.csv("PIT_homelessness_by_state.csv", function(err, data) {    
-
-        for (var i = 0; i < data.length; i++) {
-            homelessObject[i] = data[i];
-        }
-});
-
-console.log(homelessObject);
 
 // this should be load data
 function randomData (){
@@ -286,6 +283,6 @@ function change(data) {
 
    
 };
-
+});
 </script>
 </body>
