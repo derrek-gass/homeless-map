@@ -10,13 +10,40 @@ body{
 }
 
 #pie {
-    font-family: "Comic Sans", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
     width: 900px;
     height: 600px;
     position: relative;
     margin: auto;
     text-align: center;
 }
+
+#storyline {
+font-family: "Comic Sans MS", Helvetica;
+position: relative;
+margin: 20px auto;
+text-align: center;
+}
+#duration{
+    font-size:20px;
+    width: 250px;
+    height: 25px;
+}
+#randomize{
+  background-color: #1ef4e2;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button:hover {opacity: 1}
 
 svg{
 	width: 80%;
@@ -48,10 +75,17 @@ polyline{
 
 </style>
 <body>
-        Duration: 0<input type="range" id="duration" min="0" max="5000">5000
-        <br>
-        <button class="randomize">randomize</button>
+
 <div id="pie" class="pie"></div>
+<div id="storyline">At the moment, "randomize" flips a coin to include each state in the next roll.</div>
+        <button class="randomize" id="randomize"
+                onMouseOver="this.style.color='#00F'"
+                onMouseOut="this.style.color='#FFF'">randomize</button>
+        <br/>
+        Smoothing: 
+        <br/>
+        0<input type="range" id="duration" min="0" max="5000">10
+        <br>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
