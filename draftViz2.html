@@ -55,15 +55,18 @@ polyline{
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
+
 d3.csv("PIT_homelessness_by_state.csv", function(dataSaver){
 
 let colorList = '';
 
 dataSaver.forEach(function(d) {
-count = +d.count;
-state = +d.state;
-colorList += d.state.toString() + ', ';
+    count = +d.count;
+    state = +d.state;
+    colorList += d.state.toString() + ', ';
 });
+
+console.log(colorList);
 
 
 var svg = d3.select("#pie")
@@ -103,7 +106,7 @@ var key = function(d){ return d.data.label; };
 
 
 var color = d3.scale.category20()
-	.domain(["a","b","c","d","e","f","g","h"])
+	.domain(colorList)
 
 
 
