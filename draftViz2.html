@@ -58,15 +58,14 @@ polyline{
 
 d3.csv("PIT_homelessness_by_state.csv", function(dataSaver){
 
-let colorList = '';
+let colorList = [];
 
 dataSaver.forEach(function(d) {
-    count = +d.count;
-    state = +d.state;
-    colorList += d.state.toString() + ', ';
+count = +d.count;
+state = d.state;
+colorList.push(d.state);
 });
 
-console.log(colorList);
 
 
 var svg = d3.select("#pie")
@@ -107,14 +106,6 @@ var key = function(d){ return d.data.label; };
 
 var color = d3.scale.category20()
 	.domain(colorList)
-
-
-
-
-//	.domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-	//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-
 
     var valueById = d3.map();
 
