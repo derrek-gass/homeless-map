@@ -2,16 +2,39 @@
 <meta charset="utf-8">
 <style>
 
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  width: 960px;
-  height: 500px;
-  position: relative;
+body{
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
+
+    position: relative;
+    text-align: center;
 }
+
+#pie {
+    font-family: "Comic Sans", Helvetica, Arial, sans-serif;
+    width: 900px;
+    height: 600px;
+    position: relative;
+    margin: auto;
+    text-align: center;
+}
+
 svg{
-	width: 100%;
-	height: 100%;
+	width: 80%;
+	height: 80%;
+    margin: auto;
+    position: relative;
+    display: inline-block;
+
 }
+
+.svg2{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: relative;
+    display: inline-block;
+}
+
 path.slice{
 	stroke-width:2px;
 }
@@ -25,15 +48,17 @@ polyline{
 
 </style>
 <body>
-Duration: 0<input type="range" id="duration" min="0" max="5000">5000 
-<br>
-<button class="randomize">randomize</button> 
+        Duration: 0<input type="range" id="duration" min="0" max="5000">5000
+        <br>
+        <button class="randomize">randomize</button>
+<div id="pie" class="pie"></div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
-var svg = d3.select("body")
-	.append("svg")
+
+var svg = d3.select("#pie")
+	.append("svg").attr("class", "svg2")
 	.append("g")
 
 svg.append("g")
@@ -43,9 +68,11 @@ svg.append("g")
 svg.append("g")
 	.attr("class", "lines");
 
-var width = 960,
-    height = 450,
+var width = 900,
+    height = 600,
 	radius = Math.min(width, height) / 2;
+
+console.log(d3.select('svg').style('width'));
 
 var pie = d3.layout.pie()
 	.sort(null)
@@ -66,9 +93,33 @@ svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 var key = function(d){ return d.data.label; };
 
 var color = d3.scale.category20()
-	.domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
+	.domain(["a","b","c","d","e","f","g","h"])
+
+var states = d3.scale.category20()
+    .domain(["1","2","3","4"]);
+
+//	.domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
 	//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
+
+
+    var valueById = d3.map();
+
+
+    const toArray = x => ({state: x.state, count: x.count});
+    var name_id_map= [];
+    var homelessObject = [];
+
+d3.csv("PIT_homelessness_by_state.csv", function(err, data) {    
+
+        for (var i = 0; i < data.length; i++) {
+            homelessObject[i] = data[i];
+        }
+});
+
+console.log(homelessObject);
+
+// this should be load data
 function randomData (){
 	var labels = color.domain();
 	return labels.map(function(label){
@@ -232,6 +283,8 @@ function change(data) {
 	polyline
 		.exit().transition().delay(duration)
 		.remove();
+
+   
 };
 
 </script>
