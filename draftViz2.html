@@ -58,16 +58,19 @@ polyline{
 
 d3.csv("PIT_homelessness_by_state.csv", function(dataSaver){
 
-let colorList = [];
+let stateList = [];
+let countList = [];
+
 
 dataSaver.forEach(function(d) {
-count = +d.count;
-state = d.state;
-colorList.push(d.state);
+    count = +d.count;
+    state = d.state;
+    stateList.push(d.state);
+    countList.push(d.count);
 });
 
 
-
+console.log(countList);
 var svg = d3.select("#pie")
 	.append("svg").attr("class", "svg2")
 	.append("g")
@@ -105,16 +108,25 @@ var key = function(d){ return d.data.label; };
 
 
 var color = d3.scale.category20()
-	.domain(colorList)
+	.domain(stateList)
 
     var valueById = d3.map();
 
-
+function checkCount(stateName, stateArray) {
+  if (stateArray.indexOf(stateName)!== -1){
+    return countList[stateArray.indexOf(stateName)];
+  } else{
+  console.log("Value does not exists!")
+  }
+}
+console.log();
 // this should be load data
 function randomData (){
 	var labels = color.domain();
+
+
 	return labels.map(function(label){
-		return { label: label, value: Math.random() }
+		return { label: label, value: checkCount(label, stateList) }
 	}).filter(function() {
 		return Math.random() > .5;
 	}).sort(function(a,b) {
