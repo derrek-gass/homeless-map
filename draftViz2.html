@@ -29,6 +29,11 @@ text-align: center;
     width: 250px;
     height: 25px;
 }
+#year_selector{
+font-size:20px;
+width: 250px;
+height: 25px;
+}
 #randomize{
   background-color: #1ef4e2;
   border: none;
@@ -90,14 +95,22 @@ polyline{
         <br/>
         Smoothing: 
         <br/>
-        0<input type="range" id="duration" min="0" max="5000">10
+		0<input type="range" id="duration" min="0" max="5000">10		
+		<br>
+        <br />
+        Year:
+        <br />
+        2007<input type="range" id="year_selector" min="2007" max="2018" value="2018">2018
         <br>
+
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
+	var yearElement = document.getElementById("year_selector");
 
 //	We can input these later:
-    year = 2018;
+    year = yearElement.value;
+
     type='Overall Homeless';
 
 
@@ -105,17 +118,23 @@ d3.csv("data/"+year+"_"+type+".csv", function(dataSaver){
 
 let stateList = [];
 let countList = [];
+let total = 0;
 
 
 dataSaver.forEach(function(d) {
-    count = +d.count;
-    state = d.state;
-    stateList.push(d.state);
-    countList.push(d.count);
+	if (d.state=='Total'){
+			total=d.count;
+	}
+	else{	
+		count = +d.count;
+		state = d.state;
+		stateList.push(d.state);
+		countList.push(d.count);
+	}
 });
 
 
-console.log(countList);
+
 var svg = d3.select("#pie")
 	.append("svg").attr("class", "svg2")
 	.append("g")
@@ -131,7 +150,6 @@ var width = 900,
     height = 600,
 	radius = Math.min(width, height) / 2;
 
-console.log(d3.select('svg').style('width'));
 
 var pie = d3.layout.pie()
 	.sort(null)
@@ -167,13 +185,31 @@ function checkCount(stateName, stateArray) {
 console.log();
 // this should be load data
 function randomData (){
+let stateList = [];
+let countList = [];
+let total = 0;
+
+	console.log(year);
+dataSaver.forEach(function(d) {
+if (d.state=='Total'){
+total=d.count;
+}
+else{
+count = +d.count;
+state = d.state;
+stateList.push(d.state);
+countList.push(d.count);
+}
+});
+
+
 	var labels = color.domain();
 
 
 	return labels.map(function(label){
 		return { label: label, value: checkCount(label, stateList) }
 	}).filter(function() {
-		return Math.random() > .5;
+		return Math.random() > 0;  // change this if you want to see random transition
 	}).sort(function(a,b) {
 		return d3.ascending(a.label, b.label);
 	});

@@ -42,7 +42,9 @@
           margin: 2px;
         }
 
-
+        #myRange{
+          width: 450px;
+        }
 
         .mainTitle{
           position: relative;
@@ -128,7 +130,7 @@
   <div id="link">
     <h1><a href="draftViz2.html">I am the 2nd Draft Visualization</a></h1>
   </div>
-  <div id="story">
+  <div id="story" class="story">
 
 <p>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
 Rather than using a bar chart for each state, or a list of places, we chose a visual that we were familiar with. 
@@ -204,8 +206,6 @@ function updateData(){
 }
 
 function loadMap(){
-  console.log(year.innerHTML);
-  console.log(type);
   d3.select("svg").remove("g")
     d3.csv("data/"+year.innerHTML+"_"+type+".csv", function(err, data) {
 
