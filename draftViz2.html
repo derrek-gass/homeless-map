@@ -99,9 +99,11 @@ polyline{
 		<br>
         <br />
         Year:
-        <br />
-        2007<input type="range" id="year_selector" min="2007" max="2018" value="2018">2018
-        <br>
+		<br />
+		<div class="slidecontainer">
+       		 2007<input type="range" id="year_selector" min="2007" max="2018" value="2018" class="slider">2018
+		</div>
+		<br>
 
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -112,6 +114,8 @@ polyline{
     year = yearElement.value;
 
     type='Overall Homeless';
+	console.log(year);
+
 
 
 d3.csv("data/"+year+"_"+type+".csv", function(dataSaver){
@@ -182,14 +186,13 @@ function checkCount(stateName, stateArray) {
   console.log("Value does not exists!")
   }
 }
-console.log();
+
 // this should be load data
 function randomData (){
 let stateList = [];
 let countList = [];
 let total = 0;
 
-	console.log(year);
 dataSaver.forEach(function(d) {
 if (d.state=='Total'){
 total=d.count;
