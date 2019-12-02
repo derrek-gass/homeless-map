@@ -96,7 +96,12 @@ polyline{
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
-d3.csv("PIT_homelessness_by_state.csv", function(dataSaver){
+//	We can input these later:
+    year = 2018;
+    type='Overall Homeless';
+
+
+d3.csv("data/"+year+"_"+type+".csv", function(dataSaver){
 
 let stateList = [];
 let countList = [];

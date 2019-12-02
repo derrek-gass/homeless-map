@@ -120,6 +120,11 @@
 <h5>January Point-In-Time Headcount</h5>
   <div id="tooltip-container"></div>
   <div id="canvas-svg"></div>
+  <div class="slidecontainer">
+    <input type="range" min="2007" max="2018" value="2018" class="slider" id="myRange">
+    <p>Year: <span id="year_val"></span></p>
+    <p>Total: <span id="total_val"></span></p>
+  </div>
   <div id="link">
     <h1><a href="draftViz2.html">I am the 2nd Draft Visualization</a></h1>
   </div>
@@ -169,16 +174,50 @@ For the next modification, we want to add a slider to manipulate the view to be 
 
 
   <script>
-    d3.csv("PIT_homelessness_by_state.csv", function(err, data) {
+    // defaults for first pageload
+    type='Overall Homeless';
+
+    var slider = document.getElementById("myRange");
+    var year = document.getElementById("year_val");
+    var totalElem = document.getElementById("total_val");
+    year.innerHTML = slider.value;
+
+        // this adds the title, but it does it d3 style apparently
+      var thing = d3.select("div.mainTitle");
+      var title_temp_edit = thing.append("title_temp_edit");
+      title_temp_edit.text("Homeless Population in the U.S.");
+
+    loadMap();
+    
+
+    slider.oninput = function() {
+    year.innerHTML = this.value;
+    updateData();
+    }
+// TODO: 
+// input these hardcoded vars with some form instead
+// add total to a variable
+// drop total from the list of states 
+
+function updateData(){
+  loadMap();
+}
+
+function loadMap(){
+  console.log(year.innerHTML);
+  console.log(type);
+  d3.select("svg").remove("g")
+    d3.csv("data/"+year.innerHTML+"_"+type+".csv", function(err, data) {
+
       var config = {
-        "color1":"#e1bdbd",
-        "color2":"#4d0f00",
+        "color1":"#fcdddd",
+        "color2":"#f00000",
         "stateDataColumn":"state",
         "valueDataColumn":"count"}
 
       var WIDTH = 750, HEIGHT = 500;
       var COLOR_COUNTS = 50;
-      var SCALE = 0.8;
+      var SCALE = 0.9;
 
       
 
@@ -272,10 +311,6 @@ For the next modification, we want to add a slider to manipulate the view to be 
           .attr("height", height)
           ;
 
-      // this adds the title, but it does it d3 style apparently
-      var thing = d3.select("div.mainTitle");
-      var title_temp_edit = thing.append("title_temp_edit");
-      title_temp_edit.text("Homeless Population in the U.S.");
 
 
       // when the later append gets called, it's to this
@@ -297,6 +332,7 @@ For the next modification, we want to add a slider to manipulate the view to be 
       
       name_id_map = {};
       id_name_map = {};
+      var total_count = 0;
       
       for (var i = 0; i < names.length; i++) {
         name_id_map[names[i].name] = names[i].id;
@@ -304,15 +340,20 @@ For the next modification, we want to add a slider to manipulate the view to be 
       }
       
       data.forEach(function(d) {
-        var id = name_id_map[d[MAP_STATE]];
-        valueById.set(id, +d[MAP_VALUE]); 
+        if (d[MAP_STATE]=='Total'){
+            total_count = +d[MAP_VALUE];
+        }
+        else{
+            var id = name_id_map[d[MAP_STATE]];
+            valueById.set(id, +d[MAP_VALUE]); 
+        }
       });
-      
+      console.log(total_count);
       quantize.domain([d3.min(data, function(d){ return +d[MAP_VALUE] }),
         d3.max(data, function(d){ return +d[MAP_VALUE] })]);
 
 
-
+    
       d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function(error, us) {
         svg.append("g")
             .attr("class", "states-choropleth")
@@ -373,6 +414,8 @@ For the next modification, we want to add a slider to manipulate the view to be 
             .attr("transform", "scale(" + SCALE + ")")
             .attr("d", path);
 
+        totalElem.innerHTML = total_count;
+
 /*
         svg.append("g")
           .attr("transform", "translate(750,50)")
@@ -382,6 +425,10 @@ For the next modification, we want to add a slider to manipulate the view to be 
       });
     });
   });
+  
+ }
+  
+
   </script>
 
 
