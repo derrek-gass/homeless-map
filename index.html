@@ -15,7 +15,7 @@
 <style>
         body {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          width: 750px;
+          width: 800px;
           height: 800px;
           position: relative;
           margin: auto;
@@ -25,6 +25,68 @@
         svg{
             display: inline-block;
         }
+
+#pie {
+font-family: "Helvetica", Helvetica, Arial, sans-serif;
+width: 800px;
+height: 500px;
+position: relative;
+margin: auto;
+text-align: center;
+}
+
+#storyline {
+font-family: "Comic Sans MS", Helvetica;
+position: relative;
+margin: 20px auto;
+text-align: center;
+}
+#duration{
+font-size:20px;
+width: 250px;
+height: 25px;
+}
+#year_selector{
+font-size:20px;
+width: 250px;
+height: 25px;
+}
+#randomize{
+background-color: #1ef4e2;
+border: none;
+color: white;
+padding: 16px 32px;
+text-align: center;
+font-size: 16px;
+margin: 4px 2px;
+opacity: 0.6;
+transition: 0.3s;
+display: inline-block;
+text-decoration: none;
+cursor: pointer;
+}
+.button:hover {opacity: 1}
+
+
+.svg2{
+width: 100%;
+height: 100%;
+margin: auto;
+position: relative;
+display: inline-block;
+}
+
+path.slice{
+stroke-width:2px;
+}
+
+polyline{
+opacity: .3;
+stroke: black;
+stroke-width: 2px;
+fill: none;
+}
+
 
         .story{
           display: block;
@@ -119,17 +181,11 @@
 
 <body>
 <div class="mainTitle"></div>
-<h5>January Point-In-Time Headcount</h5>
+<h5>January 2018 Point-In-Time Headcount</h5>
   <div id="tooltip-container"></div>
   <div id="canvas-svg"></div>
-  <div class="slidecontainer">
-    <input type="range" min="2007" max="2018" value="2018" class="slider" id="myRange">
-    <p>Year: <span id="year_val"></span></p>
-    <p>Total: <span id="total_val"></span></p>
-  </div>
-  <div id="link">
-    <h1><a href="draftViz2.html">I am the 2nd Draft Visualization</a></h1>
-  </div>
+
+
   <div id="story" class="story">
 
 <p>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
@@ -167,95 +223,408 @@ Most of the time spent on this project was figuring out how to import informatio
 <P style="padding-bottom:120px;">
 For the next modification, we want to add a slider to manipulate the view to be a different year, and we also hope to add more information on mouseover. We expect to maintain our group for Project 4, and since we have a shared repository for our code, and are familiar with each other’s coding style, we expect our final project to become much smoother.  
 </p>
+</div>
 
+<div id="pie" class="pie"></div>
 
-
-
-
+<div id="storyline">
+  At the moment, "randomize" flips a coin to include each state in the next roll.
+  <br />
+  This does however load the real data into the viz.
+  <div class="slidecontainer">
+    <input type="range" min="2007" max="2018" value="2018" class="slider" id="myRange">
+    <p>Year: <span id="year_val"></span></p>
+    <p>Total: <span id="total_val"></span></p>
   </div>
 
+</div>
+<button class="randomize" id="randomize" onMouseOver="this.style.color='#00F'"
+  onMouseOut="this.style.color='#FFF'">randomize</button>
+<br />
+Smoothing:
+<br />
+0<input type="range" id="duration" min="0" max="5000">10
+<br>
+<br />
+Year:
+<br />
+<div class="slidecontainer">
+  2007<input type="range" id="year_selector" min="2007" max="2018" value="2018" class="slider">2018
+</div>
+<br>
 
-  <script>
-    // defaults for first pageload
-    type='Overall Homeless';
 
-    var slider = document.getElementById("myRange");
-    var year = document.getElementById("year_val");
-    var totalElem = document.getElementById("total_val");
-    year.innerHTML = slider.value;
 
-        // this adds the title, but it does it d3 style apparently
-      var thing = d3.select("div.mainTitle");
-      var title_temp_edit = thing.append("title_temp_edit");
-      title_temp_edit.text("Homeless Population in the U.S.");
+<script>
+  var yearElement = document.getElementById("year_selector");
 
-    loadMap();
-    
+  //	We can input these later:
+  year = yearElement.value;
 
-    slider.oninput = function() {
+  type = 'Overall Homeless';
+  console.log(year);
+
+
+
+  d3.csv("data/" + year + "_" + type + ".csv", function (dataSaver) {
+
+    let stateList = [];
+    let countList = [];
+    let total = 0;
+
+
+    dataSaver.forEach(function (d) {
+      if (d.state == 'Total') {
+        total = d.count;
+      } else {
+        count = +d.count;
+        state = d.state;
+        stateList.push(d.state);
+        countList.push(d.count);
+      }
+    });
+
+
+
+    var svg = d3.select("#pie")
+      .append("svg").attr("class", "svg2")
+      .append("g")
+
+    svg.append("g")
+      .attr("class", "slices");
+    svg.append("g")
+      .attr("class", "labels");
+    svg.append("g")
+      .attr("class", "lines");
+
+    var width = 800,
+      height = 500,
+      radius = Math.min(width, height) / 2;
+
+
+    var pie = d3.layout.pie()
+      .sort(null)
+      .value(function (d) {
+        return d.value;
+      });
+
+    var arc = d3.svg.arc()
+      .outerRadius(radius * 0.8)
+      .innerRadius(radius * 0.4);
+
+    var outerArc = d3.svg.arc()
+      .innerRadius(radius * 0.9)
+      .outerRadius(radius * 0.9);
+
+    svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var key = function (d) {
+      return d.data.label;
+    };
+
+
+    var color = d3.scale.category20()
+      .domain(stateList)
+
+    var valueById = d3.map();
+
+    function checkCount(stateName, stateArray) {
+      if (stateArray.indexOf(stateName) !== -1) {
+        return countList[stateArray.indexOf(stateName)];
+      } else {
+        console.log("Value does not exists!")
+      }
+    }
+
+    // this should be load data
+    function randomData() {
+      let stateList = [];
+      let countList = [];
+      let total = 0;
+
+      dataSaver.forEach(function (d) {
+        if (d.state == 'Total') {
+          total = d.count;
+        } else {
+          count = +d.count;
+          state = d.state;
+          stateList.push(d.state);
+          countList.push(d.count);
+        }
+      });
+
+
+      var labels = color.domain();
+
+
+      return labels.map(function (label) {
+        return {
+          label: label,
+          value: checkCount(label, stateList)
+        }
+      }).filter(function () {
+        return Math.random() > .5; // change this if you want to see random transition
+      }).sort(function (a, b) {
+        return d3.ascending(a.label, b.label);
+      });
+    }
+
+    change(randomData());
+
+    d3.select(".randomize")
+      .on("click", function () {
+        change(randomData());
+      });
+
+    function mergeWithFirstEqualZero(first, second) {
+      var secondSet = d3.set();
+      second.forEach(function (d) {
+        secondSet.add(d.label);
+      });
+
+      var onlyFirst = first
+        .filter(function (d) {
+          return !secondSet.has(d.label)
+        })
+        .map(function (d) {
+          return {
+            label: d.label,
+            value: 0
+          };
+        });
+      return d3.merge([second, onlyFirst])
+        .sort(function (a, b) {
+          return d3.ascending(a.label, b.label);
+        });
+    }
+
+    function change(data) {
+      var duration = +document.getElementById("duration").value;
+      var data0 = svg.select(".slices").selectAll("path.slice")
+        .data().map(function (d) {
+          return d.data
+        });
+      if (data0.length == 0) data0 = data;
+      var was = mergeWithFirstEqualZero(data, data0);
+      var is = mergeWithFirstEqualZero(data0, data);
+
+      /* ------- SLICE ARCS -------*/
+
+      var slice = svg.select(".slices").selectAll("path.slice")
+        .data(pie(was), key);
+
+      slice.enter()
+        .insert("path")
+        .attr("class", "slice")
+        .style("fill", function (d) {
+          return color(d.data.label);
+        })
+        .each(function (d) {
+          this._current = d;
+        });
+
+      slice = svg.select(".slices").selectAll("path.slice")
+        .data(pie(is), key);
+
+      slice
+        .transition().duration(duration)
+        .attrTween("d", function (d) {
+          var interpolate = d3.interpolate(this._current, d);
+          var _this = this;
+          return function (t) {
+            _this._current = interpolate(t);
+            return arc(_this._current);
+          };
+        });
+
+      slice = svg.select(".slices").selectAll("path.slice")
+        .data(pie(data), key);
+
+      slice
+        .exit().transition().delay(duration).duration(0)
+        .remove();
+
+      /* ------- TEXT LABELS -------*/
+
+      var text = svg.select(".labels").selectAll("text")
+        .data(pie(was), key);
+
+      text.enter()
+        .append("text")
+        .attr("dy", ".35em")
+        .style("opacity", 0)
+        .text(function (d) {
+          return d.data.label;
+        })
+        .each(function (d) {
+          this._current = d;
+        });
+
+      function midAngle(d) {
+        return d.startAngle + (d.endAngle - d.startAngle) / 2;
+      }
+
+      text = svg.select(".labels").selectAll("text")
+        .data(pie(is), key);
+
+      text.transition().duration(duration)
+        .style("opacity", function (d) {
+          return d.data.value == 0 ? 0 : 1;
+        })
+        .attrTween("transform", function (d) {
+          var interpolate = d3.interpolate(this._current, d);
+          var _this = this;
+          return function (t) {
+            var d2 = interpolate(t);
+            _this._current = d2;
+            var pos = outerArc.centroid(d2);
+            pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+            return "translate(" + pos + ")";
+          };
+        })
+        .styleTween("text-anchor", function (d) {
+          var interpolate = d3.interpolate(this._current, d);
+          return function (t) {
+            var d2 = interpolate(t);
+            return midAngle(d2) < Math.PI ? "start" : "end";
+          };
+        });
+
+      text = svg.select(".labels").selectAll("text")
+        .data(pie(data), key);
+
+      text
+        .exit().transition().delay(duration)
+        .remove();
+
+      /* ------- SLICE TO TEXT POLYLINES -------*/
+
+      var polyline = svg.select(".lines").selectAll("polyline")
+        .data(pie(was), key);
+
+      polyline.enter()
+        .append("polyline")
+        .style("opacity", 0)
+        .each(function (d) {
+          this._current = d;
+        });
+
+      polyline = svg.select(".lines").selectAll("polyline")
+        .data(pie(is), key);
+
+      polyline.transition().duration(duration)
+        .style("opacity", function (d) {
+          return d.data.value == 0 ? 0 : .5;
+        })
+        .attrTween("points", function (d) {
+          this._current = this._current;
+          var interpolate = d3.interpolate(this._current, d);
+          var _this = this;
+          return function (t) {
+            var d2 = interpolate(t);
+            _this._current = d2;
+            var pos = outerArc.centroid(d2);
+            pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+            return [arc.centroid(d2), outerArc.centroid(d2), pos];
+          };
+        });
+
+      polyline = svg.select(".lines").selectAll("polyline")
+        .data(pie(data), key);
+
+      polyline
+        .exit().transition().delay(duration)
+        .remove();
+
+
+    };
+  });
+</script>
+
+
+<script>
+  // defaults for first pageload
+  type = 'Overall Homeless';
+
+  var slider = document.getElementById("myRange");
+  var year = document.getElementById("year_val");
+  var totalElem = document.getElementById("total_val");
+  year.innerHTML = slider.value;
+
+  // this adds the title, but it does it d3 style apparently
+  var thing = d3.select("div.mainTitle");
+  var title_temp_edit = thing.append("title_temp_edit");
+  title_temp_edit.text("Homeless Population in the U.S.");
+
+  loadMap();
+
+
+  slider.oninput = function () {
     year.innerHTML = this.value;
     updateData();
-    }
-// TODO: 
-// input these hardcoded vars with some form instead
-// add total to a variable
-// drop total from the list of states 
+  }
+  // TODO: 
+  // input these hardcoded vars with some form instead
+  // add total to a variable
+  // drop total from the list of states 
 
-function updateData(){
-  loadMap();
-}
+  function updateData() {
+    loadMap();
+  }
 
-function loadMap(){
-  d3.select("svg").remove("g")
-    d3.csv("data/"+year.innerHTML+"_"+type+".csv", function(err, data) {
+  function loadMap() {
+    d3.select("svg").remove("g")
+    d3.csv("data/" + 2018 + "_" + type + ".csv", function (err, data) {
 
       var config = {
-        "color1":"#fcdddd",
-        "color2":"#f00000",
-        "stateDataColumn":"state",
-        "valueDataColumn":"count"}
+        "color1": "#fcdddd",
+        "color2": "#f00000",
+        "stateDataColumn": "state",
+        "valueDataColumn": "count"
+      }
 
-      var WIDTH = 750, HEIGHT = 500;
+      var WIDTH = 800,
+        HEIGHT = 500;
       var COLOR_COUNTS = 50;
       var SCALE = 0.9;
 
-      
+
 
       function Interpolate(start, end, steps, count) {
-          var s = start,
-              e = end,
-              final = s + (((e - s) / steps) * count);
-          return Math.floor(final);
+        var s = start,
+          e = end,
+          final = s + (((e - s) / steps) * count);
+        return Math.floor(final);
       }
 
-      
+
 
       function Color(_r, _g, _b) {
-          var r, g, b;
-          var setColors = function(_r, _g, _b) {
-              r = _r;
-              g = _g;
-              b = _b;          
-          };
+        var r, g, b;
+        var setColors = function (_r, _g, _b) {
+          r = _r;
+          g = _g;
+          b = _b;
+        };
 
-          setColors(_r, _g, _b);
-          this.getColors = function() {
-              var colors = {
-                  r: r,
-                  g: g,
-                  b: b
-              };
-              return colors;
+        setColors(_r, _g, _b);
+        this.getColors = function () {
+          var colors = {
+            r: r,
+            g: g,
+            b: b
           };
+          return colors;
+        };
       }
 
       function hexToRgb(hex) {
-          var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-          return result ? {
-              r: parseInt(result[1], 16),
-              g: parseInt(result[2], 16),
-              b: parseInt(result[3], 16)
-          } : null;
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
       }
 
       function valueFormat(d) {
@@ -269,47 +638,49 @@ function loadMap(){
           return d;
         }
       }
-      
 
 
-      var COLOR_FIRST = config.color1, COLOR_LAST = config.color2;
+
+      var COLOR_FIRST = config.color1,
+        COLOR_LAST = config.color2;
       var rgb = hexToRgb(COLOR_FIRST);
       var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
       rgb = hexToRgb(COLOR_LAST);
       var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
       var MAP_STATE = config.stateDataColumn;
       var MAP_VALUE = config.valueDataColumn;
-      
-      var width = WIDTH,
-          height = HEIGHT;
-      
-      var valueById = d3.map();
-      
-      var startColors = COLOR_START.getColors(),
-          endColors = COLOR_END.getColors();
 
-      
+      var width = WIDTH,
+        height = HEIGHT;
+
+      var valueById = d3.map();
+
+      var startColors = COLOR_START.getColors(),
+        endColors = COLOR_END.getColors();
+
+
       var colors = [];
-      
+
       for (var i = 0; i < COLOR_COUNTS; i++) {
         var r = Interpolate(startColors.r, endColors.r, COLOR_COUNTS, i);
         var g = Interpolate(startColors.g, endColors.g, COLOR_COUNTS, i);
         var b = Interpolate(startColors.b, endColors.b, COLOR_COUNTS, i);
         colors.push(new Color(r, g, b));
       }
-      
+
 
       var quantize = d3.scale.quantize()
-          .domain([0, 130000])
-          .range(d3.range(50).map(function(i) { return i }));
-   
-            
+        .domain([0, 130000])
+        .range(d3.range(50).map(function (i) {
+          return i
+        }));
+
+
       var path = d3.geo.path();
-      
+
       var svg = d3.select("#canvas-svg").append("svg")
-          .attr("width", width)
-          .attr("height", height)
-          ;
+        .attr("width", width)
+        .attr("height", height);
 
 
 
@@ -325,113 +696,116 @@ function loadMap(){
 
 
 
-     
-        
-      
-      d3.tsv("https://s3-us-west-2.amazonaws.com/vida-public/geo/us-state-names.tsv", function(error, names) {
-      
-      name_id_map = {};
-      id_name_map = {};
-      var total_count = 0;
-      
-      for (var i = 0; i < names.length; i++) {
-        name_id_map[names[i].name] = names[i].id;
-        id_name_map[names[i].id] = names[i].name;
-      }
-      
-      data.forEach(function(d) {
-        if (d[MAP_STATE]=='Total'){
+
+
+
+      d3.tsv("https://s3-us-west-2.amazonaws.com/vida-public/geo/us-state-names.tsv", function (error, names) {
+
+        name_id_map = {};
+        id_name_map = {};
+        var total_count = 0;
+
+        for (var i = 0; i < names.length; i++) {
+          name_id_map[names[i].name] = names[i].id;
+          id_name_map[names[i].id] = names[i].name;
+        }
+
+        data.forEach(function (d) {
+          if (d[MAP_STATE] == 'Total') {
             total_count = +d[MAP_VALUE];
-        }
-        else{
+          } else {
             var id = name_id_map[d[MAP_STATE]];
-            valueById.set(id, +d[MAP_VALUE]); 
-        }
-      });
-      console.log(total_count);
-      quantize.domain([d3.min(data, function(d){ return +d[MAP_VALUE] }),
-        d3.max(data, function(d){ return +d[MAP_VALUE] })]);
+            valueById.set(id, +d[MAP_VALUE]);
+          }
+        });
+        console.log(total_count);
+        quantize.domain([d3.min(data, function (d) {
+            return +d[MAP_VALUE]
+          }),
+          d3.max(data, function (d) {
+            return +d[MAP_VALUE]
+          })
+        ]);
 
 
-    
-      d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function(error, us) {
-        svg.append("g")
+
+        d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function (error, us) {
+          svg.append("g")
             .attr("class", "states-choropleth")
-          .selectAll("path")
+            .selectAll("path")
             .data(topojson.feature(us, us.objects.states).features)
-          .enter().append("path")
+            .enter().append("path")
             .attr("transform", "scale(" + SCALE + ")")
-            .style("fill", function(d) {
+            .style("fill", function (d) {
               if (valueById.get(d.id)) {
                 var i = quantize(valueById.get(d.id));
                 var color = colors[i].getColors();
                 return "rgb(" + color.r + "," + color.g +
-                    "," + color.b + ")";
+                  "," + color.b + ")";
               } else {
                 return "";
               }
             })
             .attr("d", path)
-            .on("mousemove", function(d) {
-                var html = "";
-      
-                html += "<div class=\"tooltip_kv\">";
-                html += "<span class=\"tooltip_key\">";
-                html += id_name_map[d.id];
-                html += "</span>";
-                html += "<span class=\"tooltip_value\">";
-                html += (valueById.get(d.id) ? valueFormat(valueById.get(d.id)) : "");
-                html += "";
-                html += "</span>";
-                html += "</div>";          
-                $("#tooltip-container").html(html);
-                $(this).attr("fill-opacity", "0.8");
-                $("#tooltip-container").show();
-                
-                var coordinates = d3.mouse(this);
-                var map_width = $('.states-choropleth')[0].getBoundingClientRect().width;
-                if (d3.event.layerX < map_width / 2) {
-                  d3.select("#tooltip-container")
-                    .style("top", (d3.event.layerY + 15) + "px")
-                    .style("left", (d3.event.layerX + 15) + "px");
-                } else {
-                  var tooltip_width = $("#tooltip-container").width();
-                  d3.select("#tooltip-container")
-                    .style("top", (d3.event.layerY + 15) + "px")
-                    .style("left", (d3.event.layerX - tooltip_width - 30) + "px");
-                }
+            .on("mousemove", function (d) {
+              var html = "";
+
+              html += "<div class=\"tooltip_kv\">";
+              html += "<span class=\"tooltip_key\">";
+              html += id_name_map[d.id];
+              html += "</span>";
+              html += "<span class=\"tooltip_value\">";
+              html += (valueById.get(d.id) ? valueFormat(valueById.get(d.id)) : "");
+              html += "";
+              html += "</span>";
+              html += "</div>";
+              $("#tooltip-container").html(html);
+              $(this).attr("fill-opacity", "0.8");
+              $("#tooltip-container").show();
+
+              var coordinates = d3.mouse(this);
+              var map_width = $('.states-choropleth')[0].getBoundingClientRect().width;
+              if (d3.event.layerX < map_width / 2) {
+                d3.select("#tooltip-container")
+                  .style("top", (d3.event.layerY + 15) + "px")
+                  .style("left", (d3.event.layerX + 15) + "px");
+              } else {
+                var tooltip_width = $("#tooltip-container").width();
+                d3.select("#tooltip-container")
+                  .style("top", (d3.event.layerY + 15) + "px")
+                  .style("left", (d3.event.layerX - tooltip_width - 30) + "px");
+              }
             })
-            .on("mouseout", function() {
-                    $(this).attr("fill-opacity", "1.0");
-                    $("#tooltip-container").hide();
-                });
+            .on("mouseout", function () {
+              $(this).attr("fill-opacity", "1.0");
+              $("#tooltip-container").hide();
+            });
 
-      
 
-        svg.append("path")
-            .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+
+          svg.append("path")
+            .datum(topojson.mesh(us, us.objects.states, function (a, b) {
+              return a !== b;
+            }))
             .attr("class", "states")
             .attr("transform", "scale(" + SCALE + ")")
             .attr("d", path);
 
-        totalElem.innerHTML = total_count;
+          totalElem.innerHTML = total_count;
 
-/*
-        svg.append("g")
-          .attr("transform", "translate(750,50)")
-          .call(colorLegend)
-*/
-        ;
+          /*
+                  svg.append("g")
+                    .attr("transform", "translate(800,50)")
+                    .call(colorLegend)
+          */
+          ;
+        });
       });
     });
-  });
-  
- }
-  
 
-  </script>
+  }
+</script>
 
 
-  
   </body>
 </html>
