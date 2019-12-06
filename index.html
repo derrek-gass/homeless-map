@@ -237,11 +237,6 @@ For the next modification, we want to add a slider to manipulate the view to be 
 <h2><span id="year_val"></span> Overall Homelessness</h2>
 <div id="pie" class="pie"></div>
 
-<div id="storyline">
-
-</div>
-
-
 <br>
   <div class="slidecontainer">
     <div id="miniTooltip">
@@ -450,11 +445,6 @@ For the next modification, we want to add a slider to manipulate the view to be 
 
     change(getData());
 
-    d3.select(".randomize")
-      .on("click", function () {
-        change(getData());
-
-      });
 
     function mergeWithFirstEqualZero(first, second) {
       var secondSet = d3.set();
@@ -655,15 +645,15 @@ For the next modification, we want to add a slider to manipulate the view to be 
     d3.csv("data/" + 2018 + "_" + type + ".csv", function (err, data) {
 
       var config = {
-        "color1": "#EEDADA",
-        "color2": "#690000",
+        "color1": "#E3C5C5",
+        "color2": "#990000",
         "stateDataColumn": "state",
         "valueDataColumn": "count"
       }
 
       var WIDTH = 800,
         HEIGHT = 500;
-      var COLOR_COUNTS = 50;
+      var COLOR_COUNTS = 20;
       var SCALE = 0.9;
 
 
