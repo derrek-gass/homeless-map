@@ -26,67 +26,77 @@
             display: inline-block;
         }
 
-#pie {
-font-family: "Helvetica", Helvetica, Arial, sans-serif;
-width: 800px;
-height: 500px;
-position: relative;
-margin: auto;
-text-align: center;
-}
+        #pie {
+        font-family: "Helvetica", Helvetica, Arial, sans-serif;
+        width: 800px;
+        height: 500px;
+        position: relative;
+        margin: auto;
+        text-align: center;
+        }
 
-#storyline {
-font-family: "Comic Sans MS", Helvetica;
-position: relative;
-margin: 20px auto;
-text-align: center;
-}
-#duration{
-font-size:20px;
-width: 250px;
-height: 25px;
-}
-#year_selector{
-font-size:20px;
-width: 250px;
-height: 25px;
-}
-#randomize{
-background-color: #1ef4e2;
-border: none;
-color: white;
-padding: 16px 32px;
-text-align: center;
-font-size: 16px;
-margin: 4px 2px;
-opacity: 0.6;
-transition: 0.3s;
-display: inline-block;
-text-decoration: none;
-cursor: pointer;
-}
-.button:hover {opacity: 1}
+        #miniTooltip {
+        font-family: "Helvetica", Helvetica, Arial, sans-serif;
+        width: 450px;
+        height: 80px;
+        position: relative;
+        margin: auto;
+        text-align: center;
+
+ 
+        }
+
+        #storyline {
+        font-family: "Comic Sans MS", Helvetica;
+        position: relative;
+        margin: 20px auto;
+        text-align: center;
+        }
+        #duration{
+        font-size:20px;
+        width: 250px;
+        height: 25px;
+        }
+        #year_selector{
+        font-size:20px;
+        width: 250px;
+        height: 25px;
+        }
+        #randomize{
+        background-color: #1ef4e2;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        }
+        .button:hover {opacity: 1}
 
 
-.svg2{
-width: 100%;
-height: 100%;
-margin: auto;
-position: relative;
-display: inline-block;
-}
+        .svg2{
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        position: relative;
+        display: inline-block;
+        }
 
-path.slice{
-stroke-width:2px;
-}
+        path.slice{
+        stroke-width:2px;
+        }
 
-polyline{
-opacity: .3;
-stroke: black;
-stroke-width: 2px;
-fill: none;
-}
-
+        polyline{
+        opacity: .3;
+        stroke: black;
+        stroke-width: 2px;
+        fill: none;
+        }
 
         .story{
           display: block;
@@ -181,7 +191,7 @@ fill: none;
 
 <body>
 <div class="mainTitle"></div>
-<h5>January 2018 Point-In-Time Headcount</h5>
+<h3>January 2018 Point-In-Time Headcount</h3>
   <div id="tooltip-container"></div>
   <div id="canvas-svg"></div>
 
@@ -224,68 +234,108 @@ Most of the time spent on this project was figuring out how to import informatio
 For the next modification, we want to add a slider to manipulate the view to be a different year, and we also hope to add more information on mouseover. We expect to maintain our group for Project 4, and since we have a shared repository for our code, and are familiar with each other’s coding style, we expect our final project to become much smoother.  
 </p>
 </div>
-
+<h2><span id="year_val"></span> Overall Homelessness</h2>
 <div id="pie" class="pie"></div>
 
 <div id="storyline">
-  At the moment, "randomize" flips a coin to include each state in the next roll.
-  <br />
-  This does however load the real data into the viz.
+
+</div>
+
+
+<br>
   <div class="slidecontainer">
+    <div id="miniTooltip">
     <input type="range" min="2007" max="2018" value="2018" class="slider" id="myRange">
-    <p>Year: <span id="year_val"></span></p>
-    <p>Total: <span id="total_val"></span></p>
+   
+      <p style="text-align: center; padding: 10px 40px; margin: 0px;">
+        <span id="year_val2"></span> Total U.S. Homeless Population:
+        <span id="total_val" style="font-weight: bold;"></span>
+        </p>
+    </div>
+
+    </div>
+
   </div>
-
-</div>
-<button class="randomize" id="randomize" onMouseOver="this.style.color='#00F'"
-  onMouseOut="this.style.color='#FFF'">randomize</button>
-<br />
-Smoothing:
-<br />
-0<input type="range" id="duration" min="0" max="5000">10
-<br>
-<br />
-Year:
-<br />
-<div class="slidecontainer">
-  2007<input type="range" id="year_selector" min="2007" max="2018" value="2018" class="slider">2018
-</div>
-<br>
-
 
 
 <script>
-  var yearElement = document.getElementById("year_selector");
+  // pie chart script section
 
-  //	We can input these later:
-  year = yearElement.value;
+    var slider = document.getElementById("myRange");
+    var year = document.getElementById("year_val");
+    var year2 = document.getElementById("year_val2");
 
-  type = 'Overall Homeless';
-  console.log(year);
+    var totalElem = document.getElementById("total_val");
 
+    year.innerHTML = slider.value;
+    year2.innerHTML = slider.value;
 
-
-  d3.csv("data/" + year + "_" + type + ".csv", function (dataSaver) {
-
-    let stateList = [];
-    let countList = [];
-    let total = 0;
+  yearNumber = +year.innerHTML;
+  yearNumber2 = +year2.innerHTML;
 
 
-    dataSaver.forEach(function (d) {
-      if (d.state == 'Total') {
-        total = d.count;
-      } else {
-        count = +d.count;
-        state = d.state;
-        stateList.push(d.state);
-        countList.push(d.count);
+  let stateList = [];
+  let totesList = [];
+  let countList2018 = [];
+  let countList2017 = [];
+  let countList2016 = [];
+  let countList2015 = [];
+  let countList2014 = [];
+  let countList2013 = [];
+  let countList2012 = [];
+  let countList2011 = [];
+  let countList2010 = [];
+  let countList2009 = [];
+  let countList2008 = [];
+  let countList2007 = [];
+
+
+  d3.csv("pieData/OverallHomelessnessByState.csv", function (data) {
+     
+      slider.onchange = function () {
+        year.innerHTML = this.value;
+        year2.innerHTML = this.value;
+        totalElem.innerHTML = totesList[2018-+year.innerHTML];
+        change(getData());
       }
+
+    data.forEach(function (d) {
+
+   
+        state = d.state;
+        if (d.state == 'Total') {
+          totesList.push(+d.count2018);
+          totesList.push(+d.count2017);
+          totesList.push(+d.count2016);
+          totesList.push(+d.count2015);
+          totesList.push(+d.count2014);
+          totesList.push(+d.count2013);
+          totesList.push(+d.count2012);
+          totesList.push(+d.count2011);
+          totesList.push(+d.count2010);
+          totesList.push(+d.count2009);
+          totesList.push(+d.count2008);
+          totesList.push(+d.count2007);
+        }
+        else {
+        stateList.push(d.state);
+        }
+        countList2018.push(+d.count2018);
+        countList2017.push(+d.count2017);
+        countList2016.push(+d.count2016);
+        countList2015.push(+d.count2015);
+        countList2014.push(+d.count2014);
+        countList2013.push(+d.count2013);
+        countList2012.push(+d.count2012);
+        countList2011.push(+d.count2011);
+        countList2010.push(+d.count2010);
+        countList2009.push(+d.count2009);
+        countList2008.push(+d.count2008);
+        countList2007.push(+d.count2007);
+      
     });
 
-
-
+    totalElem.innerHTML = totesList[2018-+year.innerHTML];
     var svg = d3.select("#pie")
       .append("svg").attr("class", "svg2")
       .append("g")
@@ -328,52 +378,82 @@ Year:
 
     var valueById = d3.map();
 
-    function checkCount(stateName, stateArray) {
+    function checkCount(stateName, stateArray, yearNumber) {
+
       if (stateArray.indexOf(stateName) !== -1) {
-        return countList[stateArray.indexOf(stateName)];
+
+        switch(yearNumber){
+          case 2018:
+            return countList2018[stateArray.indexOf(stateName)];
+            break;
+          case 2017:
+            return countList2017[stateArray.indexOf(stateName)];
+            break;
+          case 2016:
+          return countList2016[stateArray.indexOf(stateName)];
+          break;
+          case 2015:
+          return countList2015[stateArray.indexOf(stateName)];
+          break;
+          case 2014:
+          return countList2014[stateArray.indexOf(stateName)];
+          break;
+          case 2013:
+          return countList2013[stateArray.indexOf(stateName)];
+          break;
+          case 2012:
+          return countList2012[stateArray.indexOf(stateName)];
+          break;
+          case 2011:
+          return countList2011[stateArray.indexOf(stateName)];
+          break;
+          case 2010:
+          return countList2010[stateArray.indexOf(stateName)];
+          break;
+          case 2009:
+          return countList2009[stateArray.indexOf(stateName)];
+          break;
+          case 2008:
+          return countList2008[stateArray.indexOf(stateName)];
+          break;
+          case 2007:
+          return countList2007[stateArray.indexOf(stateName)];
+          break;
+        }
       } else {
         console.log("Value does not exists!")
       }
     }
 
+
+
+
     // this should be load data
-    function randomData() {
-      let stateList = [];
-      let countList = [];
-      let total = 0;
-
-      dataSaver.forEach(function (d) {
-        if (d.state == 'Total') {
-          total = d.count;
-        } else {
-          count = +d.count;
-          state = d.state;
-          stateList.push(d.state);
-          countList.push(d.count);
-        }
-      });
-
+    function getData() {
 
       var labels = color.domain();
-
+      yearNumber = +year.innerHTML;
 
       return labels.map(function (label) {
         return {
           label: label,
-          value: checkCount(label, stateList)
+          value: checkCount(label, stateList, yearNumber),
         }
       }).filter(function () {
-        return Math.random() > .5; // change this if you want to see random transition
+        return true; // change this if you want to see random transition
       }).sort(function (a, b) {
         return d3.ascending(a.label, b.label);
       });
+    
     }
+    
 
-    change(randomData());
+    change(getData());
 
     d3.select(".randomize")
       .on("click", function () {
-        change(randomData());
+        change(getData());
+
       });
 
     function mergeWithFirstEqualZero(first, second) {
@@ -399,11 +479,14 @@ Year:
     }
 
     function change(data) {
-      var duration = +document.getElementById("duration").value;
+
+
+      var duration = 2500;
       var data0 = svg.select(".slices").selectAll("path.slice")
         .data().map(function (d) {
           return d.data
         });
+    
       if (data0.length == 0) data0 = data;
       var was = mergeWithFirstEqualZero(data, data0);
       var is = mergeWithFirstEqualZero(data0, data);
@@ -539,6 +622,7 @@ Year:
 
     };
   });
+
 </script>
 
 
@@ -546,10 +630,7 @@ Year:
   // defaults for first pageload
   type = 'Overall Homeless';
 
-  var slider = document.getElementById("myRange");
-  var year = document.getElementById("year_val");
-  var totalElem = document.getElementById("total_val");
-  year.innerHTML = slider.value;
+
 
   // this adds the title, but it does it d3 style apparently
   var thing = d3.select("div.mainTitle");
@@ -559,10 +640,7 @@ Year:
   loadMap();
 
 
-  slider.oninput = function () {
-    year.innerHTML = this.value;
-    updateData();
-  }
+
   // TODO: 
   // input these hardcoded vars with some form instead
   // add total to a variable
@@ -577,8 +655,8 @@ Year:
     d3.csv("data/" + 2018 + "_" + type + ".csv", function (err, data) {
 
       var config = {
-        "color1": "#fcdddd",
-        "color2": "#f00000",
+        "color1": "#EEDADA",
+        "color2": "#690000",
         "stateDataColumn": "state",
         "valueDataColumn": "count"
       }
@@ -718,7 +796,6 @@ Year:
             valueById.set(id, +d[MAP_VALUE]);
           }
         });
-        console.log(total_count);
         quantize.domain([d3.min(data, function (d) {
             return +d[MAP_VALUE]
           }),
@@ -791,7 +868,7 @@ Year:
             .attr("transform", "scale(" + SCALE + ")")
             .attr("d", path);
 
-          totalElem.innerHTML = total_count;
+  
 
           /*
                   svg.append("g")
