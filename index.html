@@ -203,37 +203,37 @@
   <div id="canvas-svg"></div>
 
 
-  <div id="story" class="story">
+  <div id="story" class="story" style="padding-bottom: 100px;">
 
-<p>The message that we wanted to convey was: “What does the distribution of homelessness look like across the United States?” 
-Rather than using a bar chart for each state, or a list of places, we chose a visual that we were familiar with. 
-Our rationale for our visual encodings had to do with the type of data we were dealing with and the message that we wanted to relay given the background of our dataset. 
+<p>
+
+
 </p>
 
-<p style="display: block; text-align: left; padding-left: 80px; padding-right: 80px; padding-bottom: 30px;">
+<p style="display: block; text-align: center; padding-left: 80px; padding-right: 80px; padding-bottom: 30px;">
 <br/><b>State: Nominal → Dimension for each state in the U.S.
-<br/>Homelessness Count: Quantitative → Color scale depending on quantity</b>
+<br/>Homelessness Count: Quantitative → Color saturation dependent upon quantity</b>
 <br/>
 </p>
 
 <p>
-We decided to create a map to visualize the amount of homeless people across the U.S. The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of represents the state with the lowest. 
-</p>
-<p>
-The color choice is intended to relay a sense of urgency. In addition, while hovering over any state on the map, 
-a tooltip with more information will popup, showing the actual number of homeless people in the state. 
+We began our research looking into the Department of Housing and Urban Development's January Point-in-Time dataset, which began their data collection recently in 2007. 
+We decided to create an interactive map to visualize the amount of homeless people across the United States, and we wanted to know what the situation currently looks like. Tooltips are provided upon hovering within a state boundary.
+Maps are intuitive and show where the people are physically located, and offer an overlook type of insight.
+The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of represents the state with the lowest. 
+<br/>
 </p>
 
 
 
-<p>
-We used Github as a way to collaborate, and ensure that our code functioned well with one another’s. 
-Github made it easier for us to work on the project individually and share our progress without the need to physically sync up. 
-</p>
+
 
 
 </div>
+
+
 <h2><span id="year_val"></span> Overall Homelessness</h2>
+<h5>A Yearly Comparison By State</h5>
 <div id="pie" class="pie"></div>
 
 <br>
@@ -624,7 +624,7 @@ Github made it easier for us to work on the project individually and share our p
   // this adds the title, but it does it d3 style apparently
   var thing = d3.select("div.mainTitle");
   var title_temp_edit = thing.append("title_temp_edit");
-  title_temp_edit.text("Homeless Population in the U.S.");
+  title_temp_edit.text("Homeless Distribution in the U.S.");
 
   loadMap();
 
@@ -872,14 +872,67 @@ Github made it easier for us to work on the project individually and share our p
   }
 </script>
 
-<div>
-  <img class="statics" src="../images/visual_1.jpg">
-</div>
-<div>
-  <img class="statics" src="../images/visual_2.jpg">
-</div>
-<div>
-  <img class="statics" src="../images/visual_3.jpg">
-</div>
+
+    <div style="padding-bottom: 100px;">
+    <p>
+      We began our research looking into the Department of Housing and Urban Development's January Point-in-Time dataset,
+      which began their data collection recently in 2007.
+      We decided to create an interactive map to visualize the amount of homeless people across the United States, and we
+      wanted to know what the situation currently looks like. Tooltips are provided upon hovering within a state boundary.
+      Maps are intuitive and show where the people are physically located, and offer an overlook type of insight.
+      The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of
+      represents
+      the state with the lowest.
+    </p>
+
+
+    </div>
+    <div style="padding-bottom: 100px;">
+      <img class="statics" src="../images/visual_1.jpg">
+
+      <p>
+        We began our research looking into the Department of Housing and Urban Development's January Point-in-Time dataset,
+        which began their data collection recently in 2007.
+        We decided to create an interactive map to visualize the amount of homeless people across the United States, and we
+        wanted to know what the situation currently looks like. Tooltips are provided upon hovering within a state boundary.
+        Maps are intuitive and show where the people are physically located, and offer an overlook type of insight.
+        The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of
+        represents
+        the state with the lowest.
+      </p>
+
+    </div>
+
+
+    <div style="padding-bottom: 100px;">
+      <img class="statics" src="../images/visual_2.jpg">
+      <p>
+        We began our research looking into the Department of Housing and Urban Development's January Point-in-Time dataset,
+        which began their data collection recently in 2007.
+        We decided to create an interactive map to visualize the amount of homeless people across the United States, and we
+        wanted to know what the situation currently looks like. Tooltips are provided upon hovering within a state boundary.
+        Maps are intuitive and show where the people are physically located, and offer an overlook type of insight.
+        The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of
+        represents
+        the state with the lowest.
+      </p>
+    </div>
+
+
+    <div style="padding-bottom: 100px;">
+      <img class="statics" src="../images/visual_3.jpg">
+      <p>
+        We began our research looking into the Department of Housing and Urban Development's January Point-in-Time dataset,
+        which began their data collection recently in 2007.
+        We decided to create an interactive map to visualize the amount of homeless people across the United States, and we
+        wanted to know what the situation currently looks like. Tooltips are provided upon hovering within a state boundary.
+        Maps are intuitive and show where the people are physically located, and offer an overlook type of insight.
+        The darkest shade of red represents the state with the highest rate of homelessness and the lightest shade of
+        represents
+        the state with the lowest.
+      </p>
+
+    </div>
+
   </body>
 </html>
