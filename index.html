@@ -799,7 +799,7 @@ The darkest shade of red represents the state with the highest rate of homelessn
           svg.append("g")
             .attr("class", "states-choropleth")
             .selectAll("path")
-            .data(topojson.feature(us, us.objects.states).features)
+            .data(topojson.feature(us, us.objects).features)
             .enter().append("path")
             .attr("transform", "scale(" + SCALE + ")")
             .style("fill", function (d) {
