@@ -795,7 +795,7 @@ The darkest shade of red represents the state with the highest rate of homelessn
 
 
 
-        d3.json("https://s3-us-west-2.amazonaws.com/vida-public/geo/us.json", function (error, us) {
+        d3.json("./us-states.json", function (error, us) {
           svg.append("g")
             .attr("class", "states-choropleth")
             .selectAll("path")
